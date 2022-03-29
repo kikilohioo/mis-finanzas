@@ -24,7 +24,8 @@ class ConceptoController extends Controller
 
     public function index()
     {
-        $conceptos = Concepto::all
+        $conceptos = Concepto::all();
+        
     }
 
     public function show(int $id)
