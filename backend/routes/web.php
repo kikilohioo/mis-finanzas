@@ -16,6 +16,14 @@ $router->get('/', function () use ($router) {
     return sprintf("%s v%s", env('APP_NAME', 'App'), $version) . (app()->environment('production') ? '' : '-' . app()->environment());
 });
 
+$router->group([], function () use ($router) {
+    $router->get('/concepto', ['uses' => 'ConceptoController@index', 'as' => 'concepto.index']);
+    $router->get('/concepto/{id}', ['uses' => 'ConceptoController@show', 'as' => 'concepto.show']);
+    $router->post('/concepto', ['uses' => 'ConceptoController@create', 'as' => 'concepto.create']);
+    $router->put('/concepto/{id}', ['uses' => 'ConceptoController@update', 'as' => 'concepto.update']);
+    $router->delete('/concepto/{id}', ['uses' => 'ConceptoController@delete', 'as' => 'concepto.delete']);
+});
+
 $router->get('webservice', ['uses' => 'WebServiceController@wsdl', 'as' => 'webservice.wsdl']);
 $router->post('webservice', ['uses' => 'WebServiceController@server', 'as' => 'webservice.server']);
 $router->get('pcar/webservice', ['uses' => 'PCAR\WebServiceController@wsdl', 'as' => 'pcar.webservice.wsdl']);
