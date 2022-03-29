@@ -1,0 +1,16 @@
+BEGIN TRAN T1;
+UPDATE LogActividades set idusuario = LOWER(idusuario);  
+UPDATE LogErrores set idusuario = LOWER(idusuario);  
+UPDATE LogUsuarios set idusuario = LOWER(idusuario);  
+UPDATE LogSesiones set idusuario = LOWER(idusuario);  
+UPDATE PTCAreasUsuarios set idusuario = LOWER(idusuario);  
+UPDATE PTCRolesUsuarios set idusuario = LOWER(idusuario);  
+UPDATE Sesiones set idusuario = LOWER(idusuario);  
+UPDATE Usuarios set idusuario = LOWER(idusuario);  
+UPDATE UsuariosEmpresas set idusuario = LOWER(idusuario);  
+UPDATE UsuariosFunciones set idusuario = LOWER(idusuario);  
+UPDATE UsuariosParametros set idusuario = LOWER(idusuario);  
+UPDATE UsuariosPersonasFisicas set idusuario = LOWER(idusuario);  
+UPDATE UsuariosRestContrasena set idusuario = LOWER(idusuario);  
+UPDATE UsuariosSesiones set idusuario = LOWER(idusuario);  
+commit TRAN T1;

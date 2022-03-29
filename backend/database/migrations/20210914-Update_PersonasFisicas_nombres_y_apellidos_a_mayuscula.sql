@@ -1,0 +1,1 @@
+UPDATE PersonasFisicas set PrimerNombre = UPPER(PrimerNombre), SegundoNombre = UPPER(SegundoNombre), PrimerApellido = UPPER(PrimerApellido), SegundoApellido = UPPER(SegundoApellido), NombreCompleto = UPPER(NombreCompleto);

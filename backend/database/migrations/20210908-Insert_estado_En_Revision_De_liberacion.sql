@@ -1,0 +1,1 @@
+INSERT INTO PTCESTADOS (CODIGO, NOMBRE, ORDEN) VALUES ('RL', 'En Revisión de Liberación', 16);

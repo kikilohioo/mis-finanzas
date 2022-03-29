@@ -1,0 +1,508 @@
+-- /* To prevent any potential data loss issues, you should review this script in detail before running it outside the context of the database designer.*/
+-- BEGIN TRANSACTION
+-- SET QUOTED_IDENTIFIER ON
+-- SET ARITHABORT ON
+-- SET NUMERIC_ROUNDABORT OFF
+-- SET CONCAT_NULL_YIELDS_NULL ON
+-- SET ANSI_NULLS ON
+-- SET ANSI_PADDING ON
+-- SET ANSI_WARNINGS ON
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT FK_PersonasFisicas_Personas
+-- GO
+-- ALTER TABLE dbo.Personas SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_Matricula
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_Estado
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_Sexo
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_Transito
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_AntiPassBack
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF__PersonasF__rowgu__467D75B8
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_Extranjero
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_RequiereAutorizacion
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_Autorizado
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_NotifEntrada
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_NotifSalida
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_Aviso
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_DocRecibida
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_TarjetaLista
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_TarjetaEnt
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF_PersonasFisicas_Presentismo
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas
+-- 	DROP CONSTRAINT DF__PersonasF__Estad__50FB042B
+-- GO
+-- CREATE TABLE dbo.Tmp_PersonasFisicas
+-- 	(
+-- 	Documento varchar(20) NOT NULL,
+-- 	IdTipoDocumento numeric(18, 0) NOT NULL,
+-- 	PrimerNombre varchar(50) NULL,
+-- 	SegundoNombre varchar(50) NULL,
+-- 	PrimerApellido varchar(50) NULL,
+-- 	SegundoApellido varchar(50) NULL,
+-- 	VigenciaDesde datetime NULL,
+-- 	VigenciaHasta datetime NULL,
+-- 	Foto image NULL,
+-- 	Archivo varchar(100) NULL,
+-- 	Matricula numeric(18, 0) NULL,
+-- 	DocEmpresa varchar(20) NULL,
+-- 	TipoDocEmpresa numeric(18, 0) NULL,
+-- 	Estado tinyint NULL,
+-- 	Sexo tinyint NULL,
+-- 	IdSector numeric(18, 0) NULL,
+-- 	Transito smallint NULL,
+-- 	Foto2 image NULL,
+-- 	Archivo2 varchar(100) NULL,
+-- 	Foto3 image NULL,
+-- 	Archivo3 varchar(100) NULL,
+-- 	AntiPassBack int NULL,
+-- 	FechaBaja datetime NULL,
+-- 	FechaVtoDoc datetime NULL,
+-- 	rowguid uniqueidentifier NOT NULL ROWGUIDCOL,
+-- 	IdUsuarioBaja varchar(20) NULL,
+-- 	FechahoraBaja datetime NULL,
+-- 	FechaNac datetime NULL,
+-- 	IdPaisNac numeric(18, 0) NULL,
+-- 	IdDepartamentoNac numeric(18, 0) NULL,
+-- 	Extranjero smallint NULL,
+-- 	UltimaEmpresa varchar(100) NULL,
+-- 	RequiereAutorizacion smallint NULL,
+-- 	Autorizado smallint NULL,
+-- 	FechaAutorizacion datetime NULL,
+-- 	AutorizadoPor varchar(50) NULL,
+-- 	NotifEntrada smallint NULL,
+-- 	EmailsEntrada varchar(500) NULL,
+-- 	NotifSalida smallint NULL,
+-- 	EmailsSalida varchar(500) NULL,
+-- 	Autorizante varchar(50) NULL,
+-- 	Aviso smallint NULL,
+-- 	IDAlternativo numeric(18, 0) NULL,
+-- 	DocRecibida smallint NULL,
+-- 	FechaDocRec datetime NULL,
+-- 	TarjetaLista smallint NULL,
+-- 	FechaTarjLista datetime NULL,
+-- 	TarjetaEnt smallint NULL,
+-- 	FechaTarjEnt datetime NULL,
+-- 	NroContratoCompra varchar(20) NULL,
+-- 	IdEstadoActividad numeric(18, 0) NULL,
+-- 	FechaEstActividad datetime NULL,
+-- 	Certificado varchar(50) NULL,
+-- 	Payroll int NULL,
+-- 	DocEmpresaVisit varchar(20) NULL,
+-- 	TipoDocEmpresaVisit numeric(18, 0) NULL,
+-- 	EmpresaVisitante varchar(100) NULL,
+-- 	MotivoVisita varchar(255) NULL,
+-- 	EmpresaSolicitante varchar(50) NULL,
+-- 	VehiculoVisita varchar(12) NULL,
+-- 	NombrePersonaVisit varchar(200) NULL,
+-- 	NombreVisitante varchar(200) NULL,
+-- 	CorreoSolicitante varchar(255) NULL,
+-- 	NombreCompleto varchar(200) NULL,
+-- 	NombreEmpresa varchar(500) NULL,
+-- 	Observaciones varchar(255) NULL,
+-- 	AdministraEquipos tinyint NULL,
+-- 	Presentismo tinyint NULL,
+-- 	EstadoObservacion varchar(100) NULL,
+-- 	Dosis1 bit NULL,
+-- 	FechaDosis1 datetime NULL,
+-- 	Dosis2 bit NULL,
+-- 	FechaDosis2 datetime NULL,
+-- 	Dosis3 bit NULL,
+-- 	FechaDosis3 datetime NULL,
+-- 	Vacunado bit NULL,
+-- 	CicloCompleto bit NULL,
+-- 	InmunizacionVigente bit NULL,
+-- 	FuePositivo bit NULL,
+-- 	FechaPositivo datetime NULL,
+-- 	PermUYMenorA7Dias bit NULL,
+-- 	CuarentenaOblig bit NULL,
+-- 	PCRIngresoPais datetime NULL,
+-- 	PCRSeptimoDia bit NULL,
+-- 	FechaPCRSeptimoDia datetime NULL,
+-- 	ResultadoPCRSeptimoDia bit NULL,
+-- 	FechaHabilitadoAIngresarPlanta datetime NULL,
+-- 	AntigenoEnPlanta bit NULL,
+-- 	FechaAntigenoEnPlanta datetime NULL,
+-- 	ResultadoAntgEnPlanta bit NULL,
+-- 	IdAlojamiento numeric(18, 0) NULL,
+-- 	IdTransportista numeric(18, 0) NULL,
+-- 	AlojamientoNroUnidad numeric(18, 0) NULL,
+-- 	IdSeguroSalud numeric(18, 0) NULL,
+-- 	LaboratorioDosis1 numeric(18, 0) NULL,
+-- 	LaboratorioDosis2 numeric(18, 0) NULL,
+-- 	LaboratorioDosis3 numeric(18, 0) NULL
+-- 	)  ON [PRIMARY]
+-- 	 TEXTIMAGE_ON [PRIMARY]
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_Matricula DEFAULT ((0)) FOR Matricula
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_Estado DEFAULT ((1)) FOR Estado
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_Sexo DEFAULT ((1)) FOR Sexo
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_Transito DEFAULT ((0)) FOR Transito
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_AntiPassBack DEFAULT ((0)) FOR AntiPassBack
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF__PersonasF__rowgu__467D75B8 DEFAULT (newid()) FOR rowguid
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_Extranjero DEFAULT ((0)) FOR Extranjero
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_RequiereAutorizacion DEFAULT ((0)) FOR RequiereAutorizacion
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_Autorizado DEFAULT ((0)) FOR Autorizado
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_NotifEntrada DEFAULT ((0)) FOR NotifEntrada
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_NotifSalida DEFAULT ((0)) FOR NotifSalida
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_Aviso DEFAULT ((0)) FOR Aviso
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_DocRecibida DEFAULT ((0)) FOR DocRecibida
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_TarjetaLista DEFAULT ((0)) FOR TarjetaLista
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_TarjetaEnt DEFAULT ((0)) FOR TarjetaEnt
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF_PersonasFisicas_Presentismo DEFAULT ((0)) FOR Presentismo
+-- GO
+-- ALTER TABLE dbo.Tmp_PersonasFisicas ADD CONSTRAINT
+-- 	DF__PersonasF__Estad__50FB042B DEFAULT ('') FOR EstadoObservacion
+-- GO
+-- IF EXISTS(SELECT * FROM dbo.PersonasFisicas)
+-- 	 EXEC('INSERT INTO dbo.Tmp_PersonasFisicas (Documento, IdTipoDocumento, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, VigenciaDesde, VigenciaHasta, Foto, Archivo, Matricula, DocEmpresa, TipoDocEmpresa, Estado, Sexo, IdSector, Transito, Foto2, Archivo2, Foto3, Archivo3, AntiPassBack, FechaBaja, FechaVtoDoc, rowguid, IdUsuarioBaja, FechahoraBaja, FechaNac, IdPaisNac, IdDepartamentoNac, Extranjero, UltimaEmpresa, RequiereAutorizacion, Autorizado, FechaAutorizacion, AutorizadoPor, NotifEntrada, EmailsEntrada, NotifSalida, EmailsSalida, Autorizante, Aviso, IDAlternativo, DocRecibida, FechaDocRec, TarjetaLista, FechaTarjLista, TarjetaEnt, FechaTarjEnt, NroContratoCompra, IdEstadoActividad, FechaEstActividad, Certificado, Payroll, DocEmpresaVisit, TipoDocEmpresaVisit, EmpresaVisitante, MotivoVisita, EmpresaSolicitante, VehiculoVisita, NombrePersonaVisit, NombreVisitante, CorreoSolicitante, NombreCompleto, NombreEmpresa, Observaciones, AdministraEquipos, Presentismo, EstadoObservacion, Dosis1, FechaDosis1, Dosis2, FechaDosis2, Dosis3, FechaDosis3, Vacunado, CicloCompleto, InmunizacionVigente, FuePositivo, FechaPositivo, PermUYMenorA7Dias, CuarentenaOblig, PCRIngresoPais, PCRSeptimoDia, FechaPCRSeptimoDia, ResultadoPCRSeptimoDia, FechaHabilitadoAIngresarPlanta, AntigenoEnPlanta, FechaAntigenoEnPlanta, ResultadoAntgEnPlanta, IdAlojamiento, IdTransportista, AlojamientoNroUnidad, IdSeguroSalud)
+-- 		SELECT Documento, IdTipoDocumento, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, VigenciaDesde, VigenciaHasta, Foto, Archivo, Matricula, DocEmpresa, TipoDocEmpresa, Estado, Sexo, IdSector, Transito, Foto2, Archivo2, Foto3, Archivo3, AntiPassBack, FechaBaja, FechaVtoDoc, rowguid, IdUsuarioBaja, FechahoraBaja, FechaNac, IdPaisNac, IdDepartamentoNac, Extranjero, UltimaEmpresa, RequiereAutorizacion, Autorizado, FechaAutorizacion, AutorizadoPor, NotifEntrada, EmailsEntrada, NotifSalida, EmailsSalida, Autorizante, Aviso, IDAlternativo, DocRecibida, FechaDocRec, TarjetaLista, FechaTarjLista, TarjetaEnt, FechaTarjEnt, NroContratoCompra, IdEstadoActividad, FechaEstActividad, Certificado, Payroll, DocEmpresaVisit, TipoDocEmpresaVisit, EmpresaVisitante, MotivoVisita, EmpresaSolicitante, VehiculoVisita, NombrePersonaVisit, NombreVisitante, CorreoSolicitante, NombreCompleto, NombreEmpresa, Observaciones, AdministraEquipos, Presentismo, EstadoObservacion, Dosis1, FechaDosis1, Dosis2, FechaDosis2, Dosis3, FechaDosis3, Vacunado, CicloCompleto, InmunizacionVigente, FuePositivo, FechaPositivo, PermUYMenorA7Dias, CuarentenaOblig, PCRIngresoPais, PCRSeptimoDia, FechaPCRSeptimoDia, ResultadoPCRSeptimoDia, FechaHabilitadoAIngresarPlanta, AntigenoEnPlanta, FechaAntigenoEnPlanta, ResultadoAntgEnPlanta, IdAlojamiento, IdTransportista, AlojamientoNroUnidad, IdSeguroSalud FROM dbo.PersonasFisicas WITH (HOLDLOCK TABLOCKX)')
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasAccesos
+-- 	DROP CONSTRAINT FK_PersonasFisicasAccesos_PersonasFisicas
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasContratos
+-- 	DROP CONSTRAINT FK_PersonasFisicasContratos_PersonasFisicas
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasDocs
+-- 	DROP CONSTRAINT FK_PersonasFisicasDocs_PersonasFisicas
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasEmpresas
+-- 	DROP CONSTRAINT FK_PersonasFisicasEmpresas_PersonasFisicas
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasHuellas
+-- 	DROP CONSTRAINT FK_PersonasFisicasHuellas_PersonasFisicas
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasMatriculas
+-- 	DROP CONSTRAINT FK_PersonasFisicasMatriculas_PersonasFisicas
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasNiveles
+-- 	DROP CONSTRAINT FK_PersonasFisicasNiveles_PersonasFisicas
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasNivelesESP
+-- 	DROP CONSTRAINT FK_PersonasFisicasNivelesESP_PersonasFisicas
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasRutas
+-- 	DROP CONSTRAINT FK_PersonasFisicasRutas_PersonasFisicas1
+-- GO
+-- ALTER TABLE dbo.UsuariosPersonasFisicas
+-- 	DROP CONSTRAINT FK_UsuariosPersonasFisicas_PersonasFisicas
+-- GO
+-- ALTER TABLE dbo.EmpresasTransportes
+-- 	DROP CONSTRAINT FK_EmpresasTransportes_PersonasFisicas
+-- GO
+-- ALTER TABLE dbo.EmpresasTransportes
+-- 	DROP CONSTRAINT FK_EmpresasTransportes_PersonasFisicas1
+-- GO
+-- DROP TABLE dbo.PersonasFisicas
+-- GO
+-- EXECUTE sp_rename N'dbo.Tmp_PersonasFisicas', N'PersonasFisicas', 'OBJECT' 
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas ADD CONSTRAINT
+-- 	PK_PersonasFisicas PRIMARY KEY CLUSTERED 
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+
+-- GO
+-- ALTER TABLE dbo.PersonasFisicas WITH NOCHECK ADD CONSTRAINT
+-- 	FK_PersonasFisicas_Personas FOREIGN KEY
+-- 	(
+-- 	IdTipoDocumento,
+-- 	Documento
+-- 	) REFERENCES dbo.Personas
+-- 	(
+-- 	IdTipoDocumento,
+-- 	Documento
+-- 	) ON UPDATE  CASCADE 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.EmpresasTransportes ADD CONSTRAINT
+-- 	FK_EmpresasTransportes_PersonasFisicas FOREIGN KEY
+-- 	(
+-- 	DocumentoChofer1,
+-- 	IdTipoDocumentoChofer1
+-- 	) REFERENCES dbo.PersonasFisicas
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) ON UPDATE  NO ACTION 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- ALTER TABLE dbo.EmpresasTransportes ADD CONSTRAINT
+-- 	FK_EmpresasTransportes_PersonasFisicas1 FOREIGN KEY
+-- 	(
+-- 	DocumentoChofer2,
+-- 	IdTipoDocumentoChofer2
+-- 	) REFERENCES dbo.PersonasFisicas
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) ON UPDATE  NO ACTION 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- ALTER TABLE dbo.EmpresasTransportes SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.UsuariosPersonasFisicas WITH NOCHECK ADD CONSTRAINT
+-- 	FK_UsuariosPersonasFisicas_PersonasFisicas FOREIGN KEY
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) REFERENCES dbo.PersonasFisicas
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) ON UPDATE  NO ACTION 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- ALTER TABLE dbo.UsuariosPersonasFisicas SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasRutas WITH NOCHECK ADD CONSTRAINT
+-- 	FK_PersonasFisicasRutas_PersonasFisicas1 FOREIGN KEY
+-- 	(
+-- 	documento,
+-- 	idTipoDocumento
+-- 	) REFERENCES dbo.PersonasFisicas
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) ON UPDATE  CASCADE 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasRutas SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasNivelesESP WITH NOCHECK ADD CONSTRAINT
+-- 	FK_PersonasFisicasNivelesESP_PersonasFisicas FOREIGN KEY
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) REFERENCES dbo.PersonasFisicas
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) ON UPDATE  NO ACTION 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasNivelesESP SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasNiveles WITH NOCHECK ADD CONSTRAINT
+-- 	FK_PersonasFisicasNiveles_PersonasFisicas FOREIGN KEY
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) REFERENCES dbo.PersonasFisicas
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) ON UPDATE  CASCADE 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasNiveles SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasMatriculas WITH NOCHECK ADD CONSTRAINT
+-- 	FK_PersonasFisicasMatriculas_PersonasFisicas FOREIGN KEY
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) REFERENCES dbo.PersonasFisicas
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) ON UPDATE  CASCADE 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasMatriculas SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasHuellas WITH NOCHECK ADD CONSTRAINT
+-- 	FK_PersonasFisicasHuellas_PersonasFisicas FOREIGN KEY
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) REFERENCES dbo.PersonasFisicas
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) ON UPDATE  CASCADE 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasHuellas SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasEmpresas WITH NOCHECK ADD CONSTRAINT
+-- 	FK_PersonasFisicasEmpresas_PersonasFisicas FOREIGN KEY
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) REFERENCES dbo.PersonasFisicas
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) ON UPDATE  CASCADE 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasEmpresas SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasDocs WITH NOCHECK ADD CONSTRAINT
+-- 	FK_PersonasFisicasDocs_PersonasFisicas FOREIGN KEY
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) REFERENCES dbo.PersonasFisicas
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) ON UPDATE  CASCADE 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasDocs SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasContratos WITH NOCHECK ADD CONSTRAINT
+-- 	FK_PersonasFisicasContratos_PersonasFisicas FOREIGN KEY
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) REFERENCES dbo.PersonasFisicas
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) ON UPDATE  CASCADE 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasContratos SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- COMMIT
+-- BEGIN TRANSACTION
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasAccesos WITH NOCHECK ADD CONSTRAINT
+-- 	FK_PersonasFisicasAccesos_PersonasFisicas FOREIGN KEY
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) REFERENCES dbo.PersonasFisicas
+-- 	(
+-- 	Documento,
+-- 	IdTipoDocumento
+-- 	) ON UPDATE  CASCADE 
+-- 	 ON DELETE  NO ACTION 
+	
+-- GO
+-- ALTER TABLE dbo.PersonasFisicasAccesos SET (LOCK_ESCALATION = TABLE)
+-- GO
+-- COMMIT
+
+
+alter table personasfisicas add LaboratorioDosis1 numeric(18, 0) NULL,
+	LaboratorioDosis2 numeric(18, 0) NULL,
+	LaboratorioDosis3 numeric(18, 0) NULL
